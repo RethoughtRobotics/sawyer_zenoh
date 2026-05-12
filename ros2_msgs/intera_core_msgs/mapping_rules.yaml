@@ -1,0 +1,208 @@
+- ros1_message_name: AnalogIOState
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: AnalogIOState
+  ros2_package_name: intera_core_msgs
+  fields_1_to_2:
+    isInputOnly: is_input_only
+
+- ros1_message_name: AnalogIOStates
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: AnalogIOStates
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: AnalogOutputCommand
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: AnalogOutputCommand
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: CameraControl
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: CameraControl
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: CameraSettings
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: CameraSettings
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: CollisionAvoidanceState
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: CollisionAvoidanceState
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: CollisionDetectionState
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: CollisionDetectionState
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: DigitalIOState
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: DigitalIOState
+  ros2_package_name: intera_core_msgs
+  fields_1_to_2:
+    isInputOnly: is_input_only
+
+- ros1_message_name: DigitalIOStates
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: DigitalIOStates
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: DigitalOutputCommand
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: DigitalOutputCommand
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: EndpointNamesArray
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: EndpointNamesArray
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: EndpointState
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: EndpointState
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: EndpointStates
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: EndpointStates
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: HeadPanCommand
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: HeadPanCommand
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: HeadState
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: HeadState
+  ros2_package_name: intera_core_msgs
+  fields_1_to_2:
+    isTurning: is_turning
+    isBlocked: is_blocked
+    panMode: pan_mode
+
+- ros1_message_name: HomingCommand
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: HomingCommand
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: HomingState
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: HomingState
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: InteractionControlCommand
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: InteractionControlCommand
+  ros2_package_name: intera_core_msgs
+  fields_1_to_2:
+    K_impedance: k_impedance
+    D_impedance: d_impedance
+    K_nullspace: k_nullspace
+    rotations_for_constrained_zeroG: rotations_for_constrained_zero_g
+
+- ros1_message_name: InteractionControlState
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: InteractionControlState
+  ros2_package_name: intera_core_msgs
+  fields_1_to_2:
+    K_impedance: k_impedance
+    D_impedance: d_impedance
+    rotations_for_constrained_zeroG: rotations_for_constrained_zero_g
+
+- ros1_message_name: IOComponentCommand
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: IOComponentCommand
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: IOComponentConfiguration
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: IOComponentConfiguration
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: IOComponentStatus
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: IOComponentStatus
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: IODataStatus
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: IODataStatus
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: IODeviceConfiguration
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: IODeviceConfiguration
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: IODeviceStatus
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: IODeviceStatus
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: IONodeConfiguration
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: IONodeConfiguration
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: IONodeStatus
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: IONodeStatus
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: JointCommand
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: JointCommand
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: JointLimits
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: JointLimits
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: NavigatorState
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: NavigatorState
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: NavigatorStates
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: NavigatorStates
+  ros2_package_name: intera_core_msgs
+
+- ros1_message_name: RobotAssemblyState
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: RobotAssemblyState
+  ros2_package_name: intera_core_msgs
+  fields_1_to_2:
+    lowVoltage: low_voltage
+
+- ros1_message_name: SEAJointStates
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: SEAJointsStates
+  ros2_package_name: intera_core_msgs
+  fields_1_to_2:
+    hystState: hyst_state
+
+- ros1_message_name: URDFConfiguration
+  ros1_package_name: intera_core_msgs
+  ros2_message_name: URDFConfiguration
+  ros2_package_name: intera_core_msgs
+
+- ros1_package_name: intera_core_msgs
+  ros1_service_name: IOComponentCommandSrv
+  ros2_package_name: intera_core_msgs
+  ros2_service_name: IOComponentCommandSrv
+
+- ros1_package_name: intera_core_msgs
+  ros1_service_name: SolvePositionFK
+  ros2_package_name: intera_core_msgs
+  ros2_service_name: SolvePositionFK
+  response_fields_1_to_2:
+    isValid: is_valid
+    inCollision: in_collision
+
+- ros1_package_name: intera_core_msgs
+  ros1_service_name: SolvePositionIK
+  ros2_package_name: intera_core_msgs
+  ros2_service_name: SolvePositionIK

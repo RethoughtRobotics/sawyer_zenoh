@@ -1,0 +1,54 @@
+- ros1_message_name: EndpointTrackingError
+  ros1_package_name: intera_motion_msgs
+  ros2_message_name: EndpointTrackingError
+  ros2_package_name: intera_motion_msgs
+
+- ros1_message_name: InterpolatedPath
+  ros1_package_name: intera_motion_msgs
+  ros2_message_name: InterpolatedPath
+  ros2_package_name: intera_motion_msgs
+
+- ros1_message_name: JointTrackingError
+  ros1_package_name: intera_motion_msgs
+  ros2_message_name: JointTrackingError
+  ros2_package_name: intera_motion_msgs
+
+- ros1_message_name: MotionStatus
+  ros1_package_name: intera_motion_msgs
+  ros2_message_name: MotionStatus
+  ros2_package_name: intera_motion_msgs
+
+- ros1_message_name: TrackingOptions
+  ros1_package_name: intera_motion_msgs
+  ros2_message_name: TrackingOptions
+  ros2_package_name: intera_motion_msgs
+
+- ros1_message_name: TrajectoryAnalysis
+  ros1_package_name: intera_motion_msgs
+  ros2_message_name: TrajectoryAnalysis
+  ros2_package_name: intera_motion_msgs
+
+- ros1_message_name: Trajectory
+  ros1_package_name: intera_motion_msgs
+  ros2_message_name: Trajectory
+  ros2_package_name: intera_motion_msgs
+
+- ros1_message_name: TrajectoryOptions
+  ros1_package_name: intera_motion_msgs
+  ros2_message_name: TrajectoryOptions
+  ros2_package_name: intera_motion_msgs
+
+- ros1_message_name: Waypoint
+  ros1_package_name: intera_motion_msgs
+  ros2_message_name: Waypoint
+  ros2_package_name: intera_motion_msgs
+
+- ros1_message_name: WaypointOptions
+  ros1_package_name: intera_motion_msgs
+  ros2_message_name: WaypointOptions
+  ros2_package_name: intera_motion_msgs
+
+- ros1_message_name: WaypointSimple
+  ros1_package_name: intera_motion_msgs
+  ros2_message_name: WaypointSimple
+  ros2_package_name: intera_motion_msgs

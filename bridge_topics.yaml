@@ -1,0 +1,189 @@
+# Sawyer ROS1 - ROS2 bridge configuration
+#
+# Loaded onto the ROS1 parameter server with:  rosparam load /bridge_topics.yaml
+# Read by parameter_bridge at startup from params:  topics / services_1_to_2
+#
+# topics          — bidirectional; data flows where it is published
+#   type          — ROS 2 message type (bridge auto-maps to ROS 1 via mapping_rules.yaml)
+#
+# services_1_to_2 — ROS 1 services callable from ROS 2 clients
+#   type          — pkg/SrvName  (ROS 1 style, no "srv/" prefix)
+
+topics:
+
+  # ── Diagnostics ─────────────────────────────────────────────────────────────
+  - { topic: /diagnostics, type: diagnostic_msgs/msg/DiagnosticArray }
+
+  # ── TF ──────────────────────────────────────────────────────────────────────
+  - { topic: /tf,        type: tf2_msgs/msg/TFMessage }
+  - { topic: /tf_static, type: tf2_msgs/msg/TFMessage }
+
+  # ── Robot enable / reset ─────────────────────────────────────────────────────
+  - { topic: /robot/set_super_enable, type: std_msgs/msg/Bool  }
+  - { topic: /robot/set_super_reset,  type: std_msgs/msg/Empty }
+  - { topic: /robot/in_sim_mode,      type: std_msgs/msg/Bool  }
+
+  # ── Joints ──────────────────────────────────────────────────────────────────
+  - { topic: /robot/joint_states,     type: sensor_msgs/msg/JointState }
+  - { topic: /robot/ref_joint_states, type: sensor_msgs/msg/JointState }
+  - { topic: /robot/joint_limits,     type: intera_core_msgs/msg/JointLimits }
+
+  # ── Homing ──────────────────────────────────────────────────────────────────
+  - { topic: /robot/homing_states, type: intera_core_msgs/msg/HomingState }
+
+  # ── Accelerometer ───────────────────────────────────────────────────────────
+  - { topic: /robot/accelerometer/right_accelerometer/state, type: sensor_msgs/msg/Imu }
+
+  # ── Head ────────────────────────────────────────────────────────────────────
+  - { topic: /robot/head/head_state, type: intera_core_msgs/msg/HeadState }
+
+  # ── Navigators ──────────────────────────────────────────────────────────────
+  - { topic: /robot/navigators/head_navigator/state,  type: intera_core_msgs/msg/NavigatorState  }
+  - { topic: /robot/navigators/right_navigator/state, type: intera_core_msgs/msg/NavigatorState  }
+  - { topic: /robot/navigators_states,                type: intera_core_msgs/msg/NavigatorStates }
+
+  # ── Limb / right arm state ───────────────────────────────────────────────────
+  - { topic: /robot/limb/right/endpoint_state,           type: intera_core_msgs/msg/EndpointState          }
+  - { topic: /robot/limb/right/commanded_endpoint_state, type: intera_core_msgs/msg/EndpointState          }
+  - { topic: /robot/limb/right/collision_avoidance_state,type: intera_core_msgs/msg/CollisionAvoidanceState }
+  - { topic: /robot/limb/right/collision_detection_state,type: intera_core_msgs/msg/CollisionDetectionState }
+  - { topic: /robot/limb/right/tip_states,               type: intera_core_msgs/msg/EndpointStates         }
+  - { topic: /robot/limb/right/attached_mass,            type: std_msgs/msg/Float64                        }
+
+  # ── Limb / right arm safety suppression ─────────────────────────────────────
+  - { topic: /robot/limb/right/suppress_collision_avoidance,    type: std_msgs/msg/Empty }
+  - { topic: /robot/limb/right/suppress_contact_safety,         type: std_msgs/msg/Empty }
+  - { topic: /robot/limb/right/suppress_hand_overwrench_safety, type: std_msgs/msg/Empty }
+  - { topic: /robot/limb/right/suppress_squish_safety,          type: std_msgs/msg/Empty }
+
+  # ── Interaction control ──────────────────────────────────────────────────────
+  - { topic: /robot/limb/right/interaction_control_command,  type: intera_core_msgs/msg/InteractionControlCommand }
+  - { topic: /robot/limb/right/interaction_controller/state, type: intera_core_msgs/msg/InteractionControlState   }
+
+  # ── Endpoint tracking error ──────────────────────────────────────────────────
+  - { topic: /robot/limb/right/endpoint_tracking_error, type: intera_motion_msgs/msg/EndpointTrackingError }
+  - { topic: /robot/limb/right/joint_tracking_error,    type: intera_motion_msgs/msg/JointTrackingError    }
+
+  # ── IO aggregate states ───────────────────────────────────────────────────────
+  - { topic: /robot/digital_io_states, type: intera_core_msgs/msg/DigitalIOStates }
+  - { topic: /robot/analog_io_states,  type: intera_core_msgs/msg/AnalogIOStates  }
+
+  # ── Digital IO individual states ──────────────────────────────────────────────
+  - { topic: /robot/digital_io/head_blue_light/state,         type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_button_back/state,        type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_button_back_light/state,  type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_button_circle/state,      type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_button_circle_light/state,type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_button_ok/state,          type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_button_sawyer/state,      type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_button_sawyer_light/state,type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_button_square/state,      type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_button_square_light/state,type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_button_triangle/state,    type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_button_triangle_light/state, type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_green_light/state,        type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/head_red_light/state,          type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_button_back/state,       type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_button_back_light/state, type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_button_circle/state,     type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_button_circle_light/state,type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_button_ok/state,         type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_button_sawyer/state,     type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_button_sawyer_light/state,type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_button_square/state,     type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_button_square_light/state,type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_button_triangle/state,   type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_button_triangle_light/state, type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_hand_blue_light/state,   type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_hand_camera_power/state, type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_hand_green_light/state,  type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_hand_red_light/state,    type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_inner_light/state,       type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_lower_button/state,      type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_lower_cuff/state,        type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_outer_light/state,       type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_shoulder_button/state,   type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_upper_button/state,      type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_valve_1a/state,          type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_valve_1b/state,          type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_valve_2a/state,          type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/right_valve_2b/state,          type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/torso_camera_power/state,      type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/torso_digital_input0/state,    type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/torso_foot_pedal/state,        type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/torso_process_sense0/state,    type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/torso_process_sense1/state,    type: intera_core_msgs/msg/DigitalIOState }
+  - { topic: /robot/digital_io/torso_safety_stop/state,       type: intera_core_msgs/msg/DigitalIOState }
+
+  # ── Analog IO individual states ───────────────────────────────────────────────
+  - { topic: /robot/analog_io/head_wheel/state,                    type: intera_core_msgs/msg/AnalogIOState }
+  - { topic: /robot/analog_io/head_wheel/value_uint32,             type: std_msgs/msg/UInt32               }
+  - { topic: /robot/analog_io/right_analog_input/state,            type: intera_core_msgs/msg/AnalogIOState }
+  - { topic: /robot/analog_io/right_analog_input/value_uint32,     type: std_msgs/msg/UInt32               }
+  - { topic: /robot/analog_io/right_vacuum_sensor_analog/state,    type: intera_core_msgs/msg/AnalogIOState }
+  - { topic: /robot/analog_io/right_vacuum_sensor_analog/value_uint32, type: std_msgs/msg/UInt32           }
+  - { topic: /robot/analog_io/right_wheel/state,                   type: intera_core_msgs/msg/AnalogIOState }
+  - { topic: /robot/analog_io/right_wheel/value_uint32,            type: std_msgs/msg/UInt32               }
+  - { topic: /robot/analog_io/torso_fan/state,                     type: intera_core_msgs/msg/AnalogIOState }
+  - { topic: /robot/analog_io/torso_fan/value_uint32,              type: std_msgs/msg/UInt32               }
+  - { topic: /robot/analog_io/torso_lighting/state,                type: intera_core_msgs/msg/AnalogIOState }
+  - { topic: /robot/analog_io/torso_lighting/value_uint32,         type: std_msgs/msg/UInt32               }
+
+  # ── IO node / device config & state (intera IO framework) ────────────────────
+  - { topic: /io/robot/config,                    type: intera_core_msgs/msg/IONodeConfiguration  }
+  - { topic: /io/robot/state,                     type: intera_core_msgs/msg/IONodeStatus         }
+  - { topic: /io/robot/robot/command,             type: intera_core_msgs/msg/IOComponentCommand   }
+  - { topic: /io/robot/robot/config,              type: intera_core_msgs/msg/IODeviceConfiguration}
+  - { topic: /io/robot/robot/state,               type: intera_core_msgs/msg/IODeviceStatus       }
+  - { topic: /io/robot/cuff/config,               type: intera_core_msgs/msg/IODeviceConfiguration}
+  - { topic: /io/robot/cuff/state,                type: intera_core_msgs/msg/IODeviceStatus       }
+  - { topic: /io/robot/navigator/config,          type: intera_core_msgs/msg/IODeviceConfiguration}
+  - { topic: /io/robot/navigator/state,           type: intera_core_msgs/msg/IODeviceStatus       }
+  - { topic: /io/robot/pneumatic/command,         type: intera_core_msgs/msg/IOComponentCommand   }
+  - { topic: /io/robot/pneumatic/config,          type: intera_core_msgs/msg/IODeviceConfiguration}
+  - { topic: /io/robot/pneumatic/state,           type: intera_core_msgs/msg/IODeviceStatus       }
+  - { topic: /io/robot/right_end_of_arm/command,  type: intera_core_msgs/msg/IOComponentCommand   }
+  - { topic: /io/robot/right_end_of_arm/config,   type: intera_core_msgs/msg/IODeviceConfiguration}
+  - { topic: /io/robot/right_end_of_arm/state,    type: intera_core_msgs/msg/IODeviceStatus       }
+  - { topic: /io/robot/safety/config,             type: intera_core_msgs/msg/IODeviceConfiguration}
+  - { topic: /io/robot/safety/state,              type: intera_core_msgs/msg/IODeviceStatus       }
+
+  - { topic: /io/comms/config,                    type: intera_core_msgs/msg/IONodeConfiguration  }
+  - { topic: /io/comms/state,                     type: intera_core_msgs/msg/IONodeStatus         }
+  - { topic: /io/comms/io/config,                 type: intera_core_msgs/msg/IODeviceConfiguration}
+  - { topic: /io/comms/io/state,                  type: intera_core_msgs/msg/IODeviceStatus       }
+
+  - { topic: /io/end_effector/config,             type: intera_core_msgs/msg/IONodeConfiguration  }
+  - { topic: /io/end_effector/state,              type: intera_core_msgs/msg/IONodeStatus         }
+
+  - { topic: /io/internal_camera/config,          type: intera_core_msgs/msg/IONodeConfiguration  }
+  - { topic: /io/internal_camera/state,           type: intera_core_msgs/msg/IONodeStatus         }
+  - { topic: /io/internal_camera/head_camera/config,              type: intera_core_msgs/msg/IODeviceConfiguration }
+  - { topic: /io/internal_camera/head_camera/state,               type: intera_core_msgs/msg/IODeviceStatus       }
+  - { topic: /io/internal_camera/right_hand_camera/config,        type: intera_core_msgs/msg/IODeviceConfiguration }
+  - { topic: /io/internal_camera/right_hand_camera/state,         type: intera_core_msgs/msg/IODeviceStatus       }
+
+  # ── Internal cameras (image/camera_info) ─────────────────────────────────────
+  - { topic: /io/internal_camera/head_camera/camera_info,              type: sensor_msgs/msg/CameraInfo }
+  - { topic: /io/internal_camera/head_camera/image_raw,                type: sensor_msgs/msg/Image      }
+  - { topic: /io/internal_camera/head_camera/image_rect_color,         type: sensor_msgs/msg/Image      }
+  - { topic: /io/internal_camera/right_hand_camera/camera_info,        type: sensor_msgs/msg/CameraInfo }
+  - { topic: /io/internal_camera/right_hand_camera/image_raw,          type: sensor_msgs/msg/Image      }
+  - { topic: /io/internal_camera/right_hand_camera/image_rect,         type: sensor_msgs/msg/Image      }
+  - { topic: /io/internal_camera/right_hand_camera/cognex_data,        type: std_msgs/msg/String        }
+  - { topic: /io/internal_camera/right_hand_camera/events,             type: std_msgs/msg/String        }
+  - { topic: /io/internal_camera/right_hand_camera/set_strobe/state,   type: std_msgs/msg/Bool }
+
+  # ── Motion ───────────────────────────────────────────────────────────────────
+  - { topic: /motion/interpolated_path, type: intera_motion_msgs/msg/InterpolatedPath }
+
+
+# ── ROS 1 services callable from ROS 2 clients ───────────────────────────────
+services_1_to_2:
+
+  # IK / FK solvers
+  - { service: /ExternalTools/right/PositionKinematicsNode/IKServer, type: intera_core_msgs/SolvePositionIK }
+  - { service: /ExternalTools/right/PositionKinematicsNode/FKServer, type: intera_core_msgs/SolvePositionFK }
+
+  # IO component command
+  - { service: /io/robot/command, type: intera_core_msgs/IOComponentCommandSrv }
