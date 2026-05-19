@@ -19,23 +19,33 @@ topics:
   - { topic: /tf_static, type: tf2_msgs/msg/TFMessage }
 
   # ── Robot enable / reset ─────────────────────────────────────────────────────
+  - { topic: /robot/state,            type: intera_core_msgs/msg/RobotAssemblyState }
   - { topic: /robot/set_super_enable, type: std_msgs/msg/Bool  }
   - { topic: /robot/set_super_reset,  type: std_msgs/msg/Empty }
+  - { topic: /robot/set_super_stop,   type: std_msgs/msg/Empty }
   - { topic: /robot/in_sim_mode,      type: std_msgs/msg/Bool  }
+  - { topic: /robot/set_sim_mode,     type: std_msgs/msg/Bool  }
+  - { topic: /robot/set_motor_voltage_low, type: std_msgs/msg/Bool }
+  - { topic: /robot/urdf,             type: intera_core_msgs/msg/URDFConfiguration }
 
   # ── Joints ──────────────────────────────────────────────────────────────────
-  - { topic: /robot/joint_states,     type: sensor_msgs/msg/JointState }
-  - { topic: /robot/ref_joint_states, type: sensor_msgs/msg/JointState }
-  - { topic: /robot/joint_limits,     type: intera_core_msgs/msg/JointLimits }
+  - { topic: /robot/joint_states,              type: sensor_msgs/msg/JointState }
+  - { topic: /robot/ref_joint_states,          type: sensor_msgs/msg/JointState }
+  - { topic: /robot/joint_limits,              type: intera_core_msgs/msg/JointLimits }
+  - { topic: /robot/limb/right/joint_command,         type: intera_core_msgs/msg/JointCommand   }
+  - { topic: /robot/limb/right/joint_command_timeout, type: std_msgs/msg/Float64                }
 
   # ── Homing ──────────────────────────────────────────────────────────────────
-  - { topic: /robot/homing_states, type: intera_core_msgs/msg/HomingState }
+  - { topic: /robot/homing_states,   type: intera_core_msgs/msg/HomingState    }
+  - { topic: /robot/set_homing_mode, type: intera_core_msgs/msg/HomingCommand  }
 
   # ── Accelerometer ───────────────────────────────────────────────────────────
   - { topic: /robot/accelerometer/right_accelerometer/state, type: sensor_msgs/msg/Imu }
 
   # ── Head ────────────────────────────────────────────────────────────────────
-  - { topic: /robot/head/head_state, type: intera_core_msgs/msg/HeadState }
+  - { topic: /robot/head/head_state,       type: intera_core_msgs/msg/HeadState     }
+  - { topic: /robot/head/command_head_pan, type: intera_core_msgs/msg/HeadPanCommand}
+  - { topic: /robot/head_display,          type: sensor_msgs/msg/Image              }
 
   # ── Navigators ──────────────────────────────────────────────────────────────
   - { topic: /robot/navigators/head_navigator/state,  type: intera_core_msgs/msg/NavigatorState  }
@@ -49,12 +59,18 @@ topics:
   - { topic: /robot/limb/right/collision_detection_state,type: intera_core_msgs/msg/CollisionDetectionState }
   - { topic: /robot/limb/right/tip_states,               type: intera_core_msgs/msg/EndpointStates         }
   - { topic: /robot/limb/right/attached_mass,            type: std_msgs/msg/Float64                        }
+  - { topic: /robot/limb/right/set_speed_ratio,          type: std_msgs/msg/Float64                        }
+  - { topic: /robot/limb/right/set_dominance,            type: std_msgs/msg/Bool                           }
+  - { topic: /robot/limb/right/command_velocity_tozero,  type: std_msgs/msg/Bool                           }
+  - { topic: /robot/limb/right/use_default_spring_model, type: std_msgs/msg/Empty                          }
 
   # ── Limb / right arm safety suppression ─────────────────────────────────────
   - { topic: /robot/limb/right/suppress_collision_avoidance,    type: std_msgs/msg/Empty }
   - { topic: /robot/limb/right/suppress_contact_safety,         type: std_msgs/msg/Empty }
   - { topic: /robot/limb/right/suppress_hand_overwrench_safety, type: std_msgs/msg/Empty }
   - { topic: /robot/limb/right/suppress_squish_safety,          type: std_msgs/msg/Empty }
+  - { topic: /robot/limb/right/suppress_cuff_interaction,       type: std_msgs/msg/Empty }
+  - { topic: /robot/limb/right/suppress_gravity_compensation,   type: std_msgs/msg/Empty }
 
   # ── Interaction control ──────────────────────────────────────────────────────
   - { topic: /robot/limb/right/interaction_control_command,  type: intera_core_msgs/msg/InteractionControlCommand }
@@ -65,8 +81,11 @@ topics:
   - { topic: /robot/limb/right/joint_tracking_error,    type: intera_motion_msgs/msg/JointTrackingError    }
 
   # ── IO aggregate states ───────────────────────────────────────────────────────
-  - { topic: /robot/digital_io_states, type: intera_core_msgs/msg/DigitalIOStates }
-  - { topic: /robot/analog_io_states,  type: intera_core_msgs/msg/AnalogIOStates  }
+  - { topic: /robot/digital_io_states,        type: intera_core_msgs/msg/DigitalIOStates      }
+  - { topic: /robot/analog_io_states,         type: intera_core_msgs/msg/AnalogIOStates       }
+  - { topic: /robot/digital_io/command,       type: intera_core_msgs/msg/DigitalOutputCommand }
+  - { topic: /robot/analog_io/command,        type: intera_core_msgs/msg/AnalogOutputCommand  }
+  - { topic: /robot/camera_strobe,            type: intera_core_msgs/msg/CameraStrobe         }
 
   # ── Digital IO individual states ──────────────────────────────────────────────
   - { topic: /robot/digital_io/head_blue_light/state,         type: intera_core_msgs/msg/DigitalIOState }
@@ -130,13 +149,16 @@ topics:
   - { topic: /robot/analog_io/torso_lighting/value_uint32,         type: std_msgs/msg/UInt32               }
 
   # ── IO node / device config & state (intera IO framework) ────────────────────
+  - { topic: /io/robot/command,                   type: intera_core_msgs/msg/IOComponentCommand   }
   - { topic: /io/robot/config,                    type: intera_core_msgs/msg/IONodeConfiguration  }
   - { topic: /io/robot/state,                     type: intera_core_msgs/msg/IONodeStatus         }
   - { topic: /io/robot/robot/command,             type: intera_core_msgs/msg/IOComponentCommand   }
   - { topic: /io/robot/robot/config,              type: intera_core_msgs/msg/IODeviceConfiguration}
   - { topic: /io/robot/robot/state,               type: intera_core_msgs/msg/IODeviceStatus       }
+  - { topic: /io/robot/cuff/command,              type: intera_core_msgs/msg/IOComponentCommand   }
   - { topic: /io/robot/cuff/config,               type: intera_core_msgs/msg/IODeviceConfiguration}
   - { topic: /io/robot/cuff/state,                type: intera_core_msgs/msg/IODeviceStatus       }
+  - { topic: /io/robot/navigator/command,         type: intera_core_msgs/msg/IOComponentCommand   }
   - { topic: /io/robot/navigator/config,          type: intera_core_msgs/msg/IODeviceConfiguration}
   - { topic: /io/robot/navigator/state,           type: intera_core_msgs/msg/IODeviceStatus       }
   - { topic: /io/robot/pneumatic/command,         type: intera_core_msgs/msg/IOComponentCommand   }
@@ -145,21 +167,28 @@ topics:
   - { topic: /io/robot/right_end_of_arm/command,  type: intera_core_msgs/msg/IOComponentCommand   }
   - { topic: /io/robot/right_end_of_arm/config,   type: intera_core_msgs/msg/IODeviceConfiguration}
   - { topic: /io/robot/right_end_of_arm/state,    type: intera_core_msgs/msg/IODeviceStatus       }
+  - { topic: /io/robot/safety/command,            type: intera_core_msgs/msg/IOComponentCommand   }
   - { topic: /io/robot/safety/config,             type: intera_core_msgs/msg/IODeviceConfiguration}
   - { topic: /io/robot/safety/state,              type: intera_core_msgs/msg/IODeviceStatus       }
 
+  - { topic: /io/comms/command,                   type: intera_core_msgs/msg/IOComponentCommand   }
   - { topic: /io/comms/config,                    type: intera_core_msgs/msg/IONodeConfiguration  }
   - { topic: /io/comms/state,                     type: intera_core_msgs/msg/IONodeStatus         }
+  - { topic: /io/comms/io/command,                type: intera_core_msgs/msg/IOComponentCommand   }
   - { topic: /io/comms/io/config,                 type: intera_core_msgs/msg/IODeviceConfiguration}
   - { topic: /io/comms/io/state,                  type: intera_core_msgs/msg/IODeviceStatus       }
 
+  - { topic: /io/end_effector/command,             type: intera_core_msgs/msg/IOComponentCommand   }
   - { topic: /io/end_effector/config,             type: intera_core_msgs/msg/IONodeConfiguration  }
   - { topic: /io/end_effector/state,              type: intera_core_msgs/msg/IONodeStatus         }
 
+  - { topic: /io/internal_camera/command,         type: intera_core_msgs/msg/IOComponentCommand   }
   - { topic: /io/internal_camera/config,          type: intera_core_msgs/msg/IONodeConfiguration  }
   - { topic: /io/internal_camera/state,           type: intera_core_msgs/msg/IONodeStatus         }
+  - { topic: /io/internal_camera/head_camera/command,              type: intera_core_msgs/msg/IOComponentCommand    }
   - { topic: /io/internal_camera/head_camera/config,              type: intera_core_msgs/msg/IODeviceConfiguration }
   - { topic: /io/internal_camera/head_camera/state,               type: intera_core_msgs/msg/IODeviceStatus       }
+  - { topic: /io/internal_camera/right_hand_camera/command,       type: intera_core_msgs/msg/IOComponentCommand    }
   - { topic: /io/internal_camera/right_hand_camera/config,        type: intera_core_msgs/msg/IODeviceConfiguration }
   - { topic: /io/internal_camera/right_hand_camera/state,         type: intera_core_msgs/msg/IODeviceStatus       }
 
@@ -174,12 +203,115 @@ topics:
   - { topic: /io/internal_camera/right_hand_camera/events,             type: std_msgs/msg/String        }
   - { topic: /io/internal_camera/right_hand_camera/set_strobe/state,   type: std_msgs/msg/Bool }
 
+  # ── Limb / right arm additional commands ────────────────────────────────────
+  - { topic: /robot/limb/right/command_twist_stamped,                      type: geometry_msgs/msg/TwistStamped                              }
+  - { topic: /robot/limb/right/gravity_compensation_torques,               type: intera_core_msgs/msg/SEAJointState                          }
+  - { topic: /robot/limb/right/arm_state_estimate,                         type: motor_control_msgs/msg/ArmStateEstimate                     }
+  - { topic: /robot/limb/right/limb_state,                                 type: motor_control_msgs/msg/LimbState                            }
+  - { topic: /robot/limb/right/torque_data,                                type: motor_control_msgs/msg/TorqueData                           }
+  - { topic: /robot/limb/right/stiffness,                                  type: motor_control_msgs/msg/Stiffness                            }
+  - { topic: /robot/limb/right/stiffness_constraint,                       type: motor_control_msgs/msg/StiffnessConstraint                  }
+  - { topic: /robot/limb/right/velocity_controller_state,                  type: motor_control_msgs/msg/VelocityControllerState              }
+  - { topic: /robot/limb/right/weight_integral_terms,                      type: motor_control_msgs/msg/WeightIntegralTerms                  }
+  - { topic: /robot/limb/right/pose_metric_info,                           type: motor_control_msgs/msg/PoseMetrics                          }
+  - { topic: /robot/limb/right/command_joint_position,                     type: motor_control_msgs/msg/JointMotionCommand                   }
+  - { topic: /robot/limb/right/command_nullspace_setpoint_and_twist_stamped, type: motor_control_msgs/msg/NullspaceTwistStamped              }
+  - { topic: /robot/limb/right/command_stiffness,                          type: std_msgs/msg/UInt32                                         }
+  - { topic: /robot/limb/right/command_stiffness_limit,                    type: motor_control_msgs/msg/Stiffness                            }
+  - { topic: /robot/limb/right/command_twist_speed_limit,                  type: motor_control_msgs/msg/SpeedLimit                           }
+  - { topic: /robot/limb/right/command_twist_speed_limit_scale,            type: motor_control_msgs/msg/SpeedLimitScale                      }
+  - { topic: /robot/limb/right/twist_speed_constraint,                     type: motor_control_msgs/msg/SpeedConstraint                      }
+  - { topic: /robot/limb/right/set_feed_forward_weights,                   type: motor_control_msgs/msg/JointPosition                        }
+  - { topic: /robot/limb/right/set_damping_correction_weights,             type: motor_control_msgs/msg/JointPosition                        }
+
+  # ── Robot name/info lists ────────────────────────────────────────────────────
+  - { topic: /robot/joint_names,          type: motor_control_msgs/msg/StringArray }
+  - { topic: /robot/ref_joint_names,      type: motor_control_msgs/msg/StringArray }
+  - { topic: /robot/limb_names,           type: motor_control_msgs/msg/StringArray }
+  - { topic: /robot/navigators_names,     type: motor_control_msgs/msg/StringArray }
+  - { topic: /robot/homing_names,         type: motor_control_msgs/msg/StringArray }
+  - { topic: /robot/end_effector_names,   type: motor_control_msgs/msg/StringArray }
+  - { topic: /robot/digital_io_names,     type: motor_control_msgs/msg/StringArray }
+  - { topic: /robot/analog_io_names,      type: motor_control_msgs/msg/StringArray }
+  - { topic: /robot/accelerometer_names,  type: motor_control_msgs/msg/StringArray }
+  - { topic: /robot/accelerometer_states, type: motor_control_msgs/msg/AccelerometerStates }
+
+  # ── Robot collision objects ──────────────────────────────────────────────────
+  - { topic: /robot/attached_collision_object, type: arm_navigation_msgs/msg/AttachedCollisionObject }
+  - { topic: /robot/collision_object,          type: arm_navigation_msgs/msg/CollisionObject         }
+
+  # ── Lights ───────────────────────────────────────────────────────────────────
+  - { topic: /lights/cuff_command, type: lightworks/msg/CuffState  }
+  - { topic: /lights/cuff_state,   type: lightworks/msg/CuffState  }
+  - { topic: /lights/halo,         type: lightworks/msg/DomeState  }
+
+  # ── Logging / update / USB ───────────────────────────────────────────────────
+  - { topic: /log/export_request,  type: std_msgs/msg/String       }
+  - { topic: /log/export_status,   type: log_exporter/msg/Status   }
+  - { topic: /update/progress,     type: std_msgs/msg/Int32        }
+  - { topic: /update/status,       type: std_msgs/msg/Int32        }
+  - { topic: /usb/ready,           type: usbservice/msg/UsbDevices }
+
+  # ── Engine / errors / endpoint IDs ───────────────────────────────────────────
+  - { topic: /engine/task_state,   type: motor_control_msgs/msg/TaskState  }
+  - { topic: /errors,              type: rethink_errors/msg/Error           }
+  - { topic: /intera/endpoint_ids, type: motor_control_msgs/msg/StringArray }
+
+  # ── Collision detection ──────────────────────────────────────────────────────
+  - { topic: /collision/right/collision_detection, type: motor_control_msgs/msg/CollisionDetection            }
+  - { topic: /collision/right/debug,               type: motor_control_msgs/msg/JointCollisionEstimatorDebug  }
+
+  # ── TF action ────────────────────────────────────────────────────────────────
+  - { topic: /tf_action/cancel,   type: actionlib_msgs/msg/GoalID                          }
+  - { topic: /tf_action/feedback, type: tf2_msgs/msg/LookupTransformActionFeedback         }
+  - { topic: /tf_action/goal,     type: tf2_msgs/msg/LookupTransformActionGoal             }
+  - { topic: /tf_action/result,   type: tf2_msgs/msg/LookupTransformActionResult           }
+  - { topic: /tf_action/status,   type: actionlib_msgs/msg/GoalStatusArray                 }
+
+  # ── Calibration action ───────────────────────────────────────────────────────
+  - { topic: /calibration_command/cancel,   type: actionlib_msgs/msg/GoalID                                    }
+  - { topic: /calibration_command/feedback, type: intera_core_msgs/msg/CalibrationCommandActionFeedback        }
+  - { topic: /calibration_command/goal,     type: intera_core_msgs/msg/CalibrationCommandActionGoal            }
+  - { topic: /calibration_command/result,   type: intera_core_msgs/msg/CalibrationCommandActionResult          }
+  - { topic: /calibration_command/status,   type: actionlib_msgs/msg/GoalStatusArray                           }
+
+  # ── Camera field calibration action ──────────────────────────────────────────
+  - { topic: /camera_field_calibration/cancel,   type: actionlib_msgs/msg/GoalID                                              }
+  - { topic: /camera_field_calibration/feedback, type: intera_core_msgs/msg/CameraFieldCalibrationCommandActionFeedback       }
+  - { topic: /camera_field_calibration/goal,     type: intera_core_msgs/msg/CameraFieldCalibrationCommandActionGoal           }
+  - { topic: /camera_field_calibration/result,   type: intera_core_msgs/msg/CameraFieldCalibrationCommandActionResult         }
+  - { topic: /camera_field_calibration/status,   type: actionlib_msgs/msg/GoalStatusArray                                     }
+
+  # ── Motion command action ─────────────────────────────────────────────────────
+  - { topic: /motion/motion_command/cancel,   type: actionlib_msgs/msg/GoalID                          }
+  - { topic: /motion/motion_command/feedback, type: intera_motion_msgs/msg/MotionCommandActionFeedback }
+  - { topic: /motion/motion_command/goal,     type: intera_motion_msgs/msg/MotionCommandActionGoal     }
+  - { topic: /motion/motion_command/result,   type: intera_motion_msgs/msg/MotionCommandActionResult   }
+  - { topic: /motion/motion_command/status,   type: actionlib_msgs/msg/GoalStatusArray                 }
+
+  # ── rosout ───────────────────────────────────────────────────────────────────
+  - { topic: /rosout_agg, type: rosgraph_msgs/msg/Log }
+
+  # ── Dynamic reconfigure ──────────────────────────────────────────────────────
+  - { topic: /io/internal_camera/head_camera/rectify_color/parameter_descriptions,        type: dynamic_reconfigure/msg/ConfigDescription }
+  - { topic: /io/internal_camera/head_camera/rectify_color/parameter_updates,             type: dynamic_reconfigure/msg/Config            }
+  - { topic: /io/internal_camera/right_hand_camera/rectify_mono/parameter_descriptions,   type: dynamic_reconfigure/msg/ConfigDescription }
+  - { topic: /io/internal_camera/right_hand_camera/rectify_mono/parameter_updates,        type: dynamic_reconfigure/msg/Config            }
+
   # ── Motion ───────────────────────────────────────────────────────────────────
-  - { topic: /motion/interpolated_path, type: intera_motion_msgs/msg/InterpolatedPath }
+  - { topic: /motion/interpolated_path,           type: intera_motion_msgs/msg/InterpolatedPath        }
+  - { topic: /motion/interaction_control_command, type: intera_core_msgs/msg/InteractionControlCommand }
+  - { topic: /motion/skip_trajectory,             type: std_msgs/msg/Bool                              }
+
+  # ── Logging ──────────────────────────────────────────────────────────────────
+  - { topic: /log/export_request,            type: std_msgs/msg/String }
+
+  # ── Robot publish rate ───────────────────────────────────────────────────────
+  - { topic: /robot/joint_state_publish_rate, type: std_msgs/msg/UInt16 }
 
 
 # ── ROS 1 services callable from ROS 2 clients ───────────────────────────────
-services_1_to_2:
+services_2_to_1:
 
   # IK / FK solvers
   - { service: /ExternalTools/right/PositionKinematicsNode/IKServer, type: intera_core_msgs/SolvePositionIK }
@@ -187,7 +319,3 @@ services_1_to_2:
 
   # IO component command
   - { service: /io/robot/command, type: intera_core_msgs/IOComponentCommandSrv }
-
-
-
-
