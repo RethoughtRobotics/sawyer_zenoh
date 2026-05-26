@@ -8,6 +8,10 @@
 #
 # services_1_to_2 — ROS 1 services callable from ROS 2 clients
 #   type          — pkg/SrvName  (ROS 1 style, no "srv/" prefix)
+#
+# NOTE on QoS: The /io/ config and state topics are latched on ROS 1
+#   (published once at startup or on change). They need transient_local
+#   durability so late-joining ROS 2 subscribers receive the last message.
 
 topics:
 
@@ -16,7 +20,11 @@ topics:
 
   # ── TF ──────────────────────────────────────────────────────────────────────
   - { topic: /tf,        type: tf2_msgs/msg/TFMessage }
-  - { topic: /tf_static, type: tf2_msgs/msg/TFMessage }
+  - topic: /tf_static
+    type: tf2_msgs/msg/TFMessage
+    qos:
+      durability: transient_local
+      history: keep_all
 
   # ── Robot enable / reset ─────────────────────────────────────────────────────
   - { topic: /robot/state,            type: intera_core_msgs/msg/RobotAssemblyState }
@@ -150,47 +158,131 @@ topics:
 
   # ── IO node / device config & state (intera IO framework) ────────────────────
   - { topic: /io/robot/command,                   type: intera_core_msgs/msg/IOComponentCommand   }
-  - { topic: /io/robot/config,                    type: intera_core_msgs/msg/IONodeConfiguration  }
-  - { topic: /io/robot/state,                     type: intera_core_msgs/msg/IONodeStatus         }
+  - topic: /io/robot/config
+    type: intera_core_msgs/msg/IONodeConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/robot/state
+    type: intera_core_msgs/msg/IONodeStatus
+    qos:
+      durability: transient_local
+
   - { topic: /io/robot/robot/command,             type: intera_core_msgs/msg/IOComponentCommand   }
-  - { topic: /io/robot/robot/config,              type: intera_core_msgs/msg/IODeviceConfiguration}
-  - { topic: /io/robot/robot/state,               type: intera_core_msgs/msg/IODeviceStatus       }
+  - topic: /io/robot/robot/config
+    type: intera_core_msgs/msg/IODeviceConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/robot/robot/state
+    type: intera_core_msgs/msg/IODeviceStatus
+    qos:
+      durability: transient_local
+
   - { topic: /io/robot/cuff/command,              type: intera_core_msgs/msg/IOComponentCommand   }
-  - { topic: /io/robot/cuff/config,               type: intera_core_msgs/msg/IODeviceConfiguration}
-  - { topic: /io/robot/cuff/state,                type: intera_core_msgs/msg/IODeviceStatus       }
+  - topic: /io/robot/cuff/config
+    type: intera_core_msgs/msg/IODeviceConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/robot/cuff/state
+    type: intera_core_msgs/msg/IODeviceStatus
+    qos:
+      durability: transient_local
+
   - { topic: /io/robot/navigator/command,         type: intera_core_msgs/msg/IOComponentCommand   }
-  - { topic: /io/robot/navigator/config,          type: intera_core_msgs/msg/IODeviceConfiguration}
-  - { topic: /io/robot/navigator/state,           type: intera_core_msgs/msg/IODeviceStatus       }
+  - topic: /io/robot/navigator/config
+    type: intera_core_msgs/msg/IODeviceConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/robot/navigator/state
+    type: intera_core_msgs/msg/IODeviceStatus
+    qos:
+      durability: transient_local
+
   - { topic: /io/robot/pneumatic/command,         type: intera_core_msgs/msg/IOComponentCommand   }
-  - { topic: /io/robot/pneumatic/config,          type: intera_core_msgs/msg/IODeviceConfiguration}
-  - { topic: /io/robot/pneumatic/state,           type: intera_core_msgs/msg/IODeviceStatus       }
+  - topic: /io/robot/pneumatic/config
+    type: intera_core_msgs/msg/IODeviceConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/robot/pneumatic/state
+    type: intera_core_msgs/msg/IODeviceStatus
+    qos:
+      durability: transient_local
+
   - { topic: /io/robot/right_end_of_arm/command,  type: intera_core_msgs/msg/IOComponentCommand   }
-  - { topic: /io/robot/right_end_of_arm/config,   type: intera_core_msgs/msg/IODeviceConfiguration}
-  - { topic: /io/robot/right_end_of_arm/state,    type: intera_core_msgs/msg/IODeviceStatus       }
+  - topic: /io/robot/right_end_of_arm/config
+    type: intera_core_msgs/msg/IODeviceConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/robot/right_end_of_arm/state
+    type: intera_core_msgs/msg/IODeviceStatus
+    qos:
+      durability: transient_local
+
   - { topic: /io/robot/safety/command,            type: intera_core_msgs/msg/IOComponentCommand   }
-  - { topic: /io/robot/safety/config,             type: intera_core_msgs/msg/IODeviceConfiguration}
-  - { topic: /io/robot/safety/state,              type: intera_core_msgs/msg/IODeviceStatus       }
+  - topic: /io/robot/safety/config
+    type: intera_core_msgs/msg/IODeviceConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/robot/safety/state
+    type: intera_core_msgs/msg/IODeviceStatus
+    qos:
+      durability: transient_local
 
   - { topic: /io/comms/command,                   type: intera_core_msgs/msg/IOComponentCommand   }
-  - { topic: /io/comms/config,                    type: intera_core_msgs/msg/IONodeConfiguration  }
-  - { topic: /io/comms/state,                     type: intera_core_msgs/msg/IONodeStatus         }
+  - topic: /io/comms/config
+    type: intera_core_msgs/msg/IONodeConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/comms/state
+    type: intera_core_msgs/msg/IONodeStatus
+    qos:
+      durability: transient_local
   - { topic: /io/comms/io/command,                type: intera_core_msgs/msg/IOComponentCommand   }
-  - { topic: /io/comms/io/config,                 type: intera_core_msgs/msg/IODeviceConfiguration}
-  - { topic: /io/comms/io/state,                  type: intera_core_msgs/msg/IODeviceStatus       }
+  - topic: /io/comms/io/config
+    type: intera_core_msgs/msg/IODeviceConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/comms/io/state
+    type: intera_core_msgs/msg/IODeviceStatus
+    qos:
+      durability: transient_local
 
   - { topic: /io/end_effector/command,             type: intera_core_msgs/msg/IOComponentCommand   }
-  - { topic: /io/end_effector/config,             type: intera_core_msgs/msg/IONodeConfiguration  }
-  - { topic: /io/end_effector/state,              type: intera_core_msgs/msg/IONodeStatus         }
+  - topic: /io/end_effector/config
+    type: intera_core_msgs/msg/IONodeConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/end_effector/state
+    type: intera_core_msgs/msg/IONodeStatus
+    qos:
+      durability: transient_local
 
   - { topic: /io/internal_camera/command,         type: intera_core_msgs/msg/IOComponentCommand   }
-  - { topic: /io/internal_camera/config,          type: intera_core_msgs/msg/IONodeConfiguration  }
-  - { topic: /io/internal_camera/state,           type: intera_core_msgs/msg/IONodeStatus         }
+  - topic: /io/internal_camera/config
+    type: intera_core_msgs/msg/IONodeConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/internal_camera/state
+    type: intera_core_msgs/msg/IONodeStatus
+    qos:
+      durability: transient_local
   - { topic: /io/internal_camera/head_camera/command,              type: intera_core_msgs/msg/IOComponentCommand    }
-  - { topic: /io/internal_camera/head_camera/config,              type: intera_core_msgs/msg/IODeviceConfiguration }
-  - { topic: /io/internal_camera/head_camera/state,               type: intera_core_msgs/msg/IODeviceStatus       }
+  - topic: /io/internal_camera/head_camera/config
+    type: intera_core_msgs/msg/IODeviceConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/internal_camera/head_camera/state
+    type: intera_core_msgs/msg/IODeviceStatus
+    qos:
+      durability: transient_local
   - { topic: /io/internal_camera/right_hand_camera/command,       type: intera_core_msgs/msg/IOComponentCommand    }
-  - { topic: /io/internal_camera/right_hand_camera/config,        type: intera_core_msgs/msg/IODeviceConfiguration }
-  - { topic: /io/internal_camera/right_hand_camera/state,         type: intera_core_msgs/msg/IODeviceStatus       }
+  - topic: /io/internal_camera/right_hand_camera/config
+    type: intera_core_msgs/msg/IODeviceConfiguration
+    qos:
+      durability: transient_local
+  - topic: /io/internal_camera/right_hand_camera/state
+    type: intera_core_msgs/msg/IODeviceStatus
+    qos:
+      durability: transient_local
 
   # ── Internal cameras (image/camera_info) ─────────────────────────────────────
   - { topic: /io/internal_camera/head_camera/camera_info,              type: sensor_msgs/msg/CameraInfo }
@@ -309,13 +401,12 @@ topics:
   # ── Robot publish rate ───────────────────────────────────────────────────────
   - { topic: /robot/joint_state_publish_rate, type: std_msgs/msg/UInt16 }
 
-
-# ── ROS 1 services callable from ROS 2 clients ───────────────────────────────
 services_2_to_1:
 
-  # IK / FK solvers
-  - { service: /ExternalTools/right/PositionKinematicsNode/IKServer, type: intera_core_msgs/SolvePositionIK }
-  - { service: /ExternalTools/right/PositionKinematicsNode/FKServer, type: intera_core_msgs/SolvePositionFK }
+  # ── IK / FK ──────────────────────────────────────────────────────────────────
+  - { service: /ExternalTools/right/PositionKinematicsNode/IKService, type: intera_core_msgs/SolvePositionIK }
+  - { service: /ExternalTools/right/PositionKinematicsNode/FKService, type: intera_core_msgs/SolvePositionFK }
 
-  # IO component command
-  - { service: /io/robot/command, type: intera_core_msgs/IOComponentCommandSrv }
+  # ── Standard types — bridge works natively ───────────────────────────────────
+  - { service: /collision/right/tare,          type: std_srvs/Empty }
+  - { service: /robot/register_planning_scene, type: std_srvs/Empty }
