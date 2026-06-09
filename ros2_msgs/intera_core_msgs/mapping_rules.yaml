@@ -177,9 +177,9 @@
   fields_1_to_2:
     lowVoltage: low_voltage
 
-- ros1_message_name: SEAJointStates
+- ros1_message_name: SEAJointState
   ros1_package_name: intera_core_msgs
-  ros2_message_name: SEAJointsStates
+  ros2_message_name: SEAJointState
   ros2_package_name: intera_core_msgs
   fields_1_to_2:
     hystState: hyst_state
@@ -198,7 +198,10 @@
   ros1_service_name: SolvePositionFK
   ros2_package_name: intera_core_msgs
   ros2_service_name: SolvePositionFK
+  request_fields_1_to_2:
+    tip_names: tip_names
   response_fields_1_to_2:
+    pose_stamp: pose_stamp
     isValid: is_valid
     inCollision: in_collision
 
@@ -206,3 +209,14 @@
   ros1_service_name: SolvePositionIK
   ros2_package_name: intera_core_msgs
   ros2_service_name: SolvePositionIK
+
+- ros1_package_name: intera_core_msgs
+  ros1_action_name: CalibrationCommand
+  ros2_package_name: intera_core_msgs
+  ros2_action_name: CalibrationCommand
+  result_fields_1_to_2:
+    statusId: status_id
+  feedback_fields_1_to_2:
+    currentState: current_state
+    numberOfPoses: number_of_poses
+    currentPoseNumber: current_pose_number

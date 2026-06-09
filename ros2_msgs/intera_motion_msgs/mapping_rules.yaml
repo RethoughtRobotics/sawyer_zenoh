@@ -52,3 +52,12 @@
   ros1_package_name: intera_motion_msgs
   ros2_message_name: WaypointSimple
   ros2_package_name: intera_motion_msgs
+
+- ros1_package_name: 'intera_motion_msgs'
+  ros1_action_name: 'MotionCommand'
+  ros2_package_name: 'intera_motion_msgs'
+  ros2_action_name: 'MotionCommand'
+  result_fields_1_to_2:
+    errorId: error_id
+    trajectory_analysis: trajectory_analysis
+    last_successful_waypoint: last_successful_waypoint

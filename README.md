@@ -1,16 +1,16 @@
-# Baxter Bridge
+# Sawyer Bridge
 
 ![ROS2 Jazzy](https://img.shields.io/badge/ROS2_Jazzy-compatible-brightgreen?logo=ros&logoColor=white)
 ![ROS2 Kilted](https://img.shields.io/badge/ROS2_Kilted-compatible-brightgreen?logo=ros&logoColor=white)
 ![ROS2 Lyrical](https://img.shields.io/badge/ROS2_Lyrical-compatible-brightgreen?logo=ros&logoColor=white)
 
-![Baxter Bridge overview diagram](overview.png)
+![Sawyer Bridge overview diagram](assets/sawyer_overview.png)
 
-ROS 1 Noetic hit end-of-life in May 2025. If you have a Baxter sitting in your lab on the old ROS 1 stack, this bridge gets you to ROS 2 in under 10 minutes without any changes to the robot required.
+ROS 1 Noetic hit end-of-life in May 2025. If you have a Sawyer sitting in your lab on the old ROS 1 stack, this bridge gets you to ROS 2 in under 10 minutes without any changes to the robot required.
 
-It runs a Docker container on your laptop that bridges all of Baxter's ROS 1 topics and services to ROS 2 using [`ros1_bridge`](https://github.com/RethoughtRobotics/ros1_bridge) over Zenoh. For a deep dive into how it works, see [Architecture](ARCHITECTURE.md).
+It runs a Docker container on your laptop that bridges all of Sawyer's ROS 1 topics and services to ROS 2 using [`ros1_bridge`](https://github.com/RethoughtRobotics/ros1_bridge) over Zenoh. For a deep dive into how it works, see [Architecture](ARCHITECTURE.md).
 
-Looking for Sawyer? Checkout the same project for Sawyer [sawyer-zenoh](https://github.com/RethoughtRobotics/sawyer-zenoh)
+Looking for Baxter? Checkout the same project for Baxter [baxter-zenoh](https://github.com/RethoughtRobotics/baxter-zenoh)
 
 ---
 
@@ -26,30 +26,30 @@ Looking for Sawyer? Checkout the same project for Sawyer [sawyer-zenoh](https://
 ### Clone the repo
 
 ```bash
-git clone https://github.com/RethoughtRobotics/baxter-zenoh.git
-cd baxter-zenoh
+git clone https://github.com/RethoughtRobotics/sawyer-zenoh.git
+cd sawyer-zenoh
 ```
 
 ---
 
 ## 1. One-time setup
 
-Run once on any machine you want to use with Baxter:
+Run once on any machine you want to use with Sawyer:
 
 ```bash
 bash setup.sh
 source ~/.bashrc   # or ~/.zshrc if you use zsh
 ```
 
-This installs the Ethernet profile, Zenoh middleware, and adds `baxter_start` / `bax_msgs` aliases to your shell.
+This installs the Ethernet profile, Zenoh middleware, and adds `sawyer_start` / `sawyer_msgs` aliases to your shell.
 
 Then pull the Docker image and build the ROS 2 message definitions:
 
 > **Note:** The image is about 10 GB - pulling takes roughly 3 minutes on a good connection.
 
 ```bash
-docker pull ghcr.io/rethoughtrobotics/baxter-zenoh:latest
-cd ~/baxter-zenoh/ros2_msgs && colcon build
+docker pull ghcr.io/rethoughtrobotics/sawyer-zenoh:latest
+cd ~/sawyer-zenoh/ros2_msgs && colcon build
 ```
 
 Then restart the ROS daemon (required due to a [known Zenoh issue](https://github.com/ros2/rmw_zenoh/issues/184)):
@@ -66,9 +66,9 @@ Make sure the robot is on and the Ethernet cable is connected, then open two ter
 
 | Terminal 1: Bridge | Terminal 2: Your ROS 2 workspace|
 |---|---|
-| `baxter_start` | `bax_msgs` |
+| `sawyer_start` | `sawyer_msgs` |
 
-**Terminal 1** runs the bridge and stays open. **Terminal 2** (and any others you open) run `bax_msgs` once to source the compiled baxter_msgs.
+**Terminal 1** runs the bridge and stays open. **Terminal 2** (and any others you open) run `sawyer_msgs` once to source the compiled sawyer_msgs.
 
 ---
 
@@ -91,10 +91,10 @@ ros2 topic pub --once /robot/set_super_enable std_msgs/msg/Bool "{data: false}"
 
 ## 4. Next steps
 
-Once the bridge is running, use the Baxter SDK for higher-level control — motion planning, gripper control, joint commands, and building your own ROS 2 applications:
+Once the bridge is running, use the Sawyer SDK for higher-level control — motion planning, gripper control, joint commands, and building your own ROS 2 applications:
 
-<a href="https://github.com/RethoughtRobotics/BaxterSDK">
-  <img src="https://gh-card.dev/repos/RethoughtRobotics/BaxterSDK.svg?fullname=" width="50%" />
+<a href="https://github.com/RethoughtRobotics/SawyerSDK">
+  <img src="https://gh-card.dev/repos/RethoughtRobotics/SawyerSDK.svg?fullname=" width="50%" />
 </a>
 
 ---
@@ -104,10 +104,10 @@ Once the bridge is running, use the Baxter SDK for higher-level control — moti
 <details>
 <summary><b>The bridge starts but I see no topics on the ROS 2 side</b></summary>
 
-Make sure you have run `bax_msgs` in your terminal. Without it, `RMW_IMPLEMENTATION` and the Baxter message definitions are not set.
+Make sure you have run `sawyer_msgs` in your terminal. Without it, `RMW_IMPLEMENTATION` and the Sawyer message definitions are not set.
 
 ```bash
-bax_msgs
+sawyer_msgs
 ros2 topic list
 ```
 

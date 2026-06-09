@@ -30,11 +30,11 @@ RUN bash -c "\
     cd /ros2_ws && \
     colcon build --packages-select intera_core_msgs intera_motion_msgs"
 
-# ros1_bridge from source (master, pinned)
+# ros1_bridge updated from source (master, pinned)
 RUN git clone --branch kilted --single-branch \
-    https://github.com/andnet-deboer/ros1_bridge \
-    /bridge_ws/src/ros1_bridge && \
-    git -C /bridge_ws/src/ros1_bridge checkout
+    https://github.com/Tomekkrzem/ros1_bridge \
+    /bridge_ws/src/ros1_bridge
+
 
 RUN bash -c "\
     source /opt/ros/one/setup.bash && \

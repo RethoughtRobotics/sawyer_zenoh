@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Connects to Baxter and runs the bridge.
+# Connects to Sawyer and runs the bridge.
 # Usage: bash connect.sh
 
 set -e
@@ -15,4 +15,6 @@ fi
 echo "Robot is reachable."
 
 echo "Starting bridge..."
-docker run --rm --network=host ghcr.io/rethoughtrobotics/sawyer-zenoh:latest
+# docker run --rm --network=host ghcr.io/rethoughtrobotics/sawyer-zenoh:latest
+
+docker run --rm --network=host sawyer-zenoh:latest

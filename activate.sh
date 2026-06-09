@@ -21,7 +21,7 @@ echo "  --------------------------------"
 echo "  ROS:  ${ROS_DISTRO}"
 echo "  RMW:  ${RMW_IMPLEMENTATION}"
 if [[ -f "$REPO_DIR/ros2_msgs/install/setup.bash" ]]; then
-    echo "  Msgs: sawyer_core_msgs, baxter_motion_msgs"
+    echo "  Msgs: sawyer_core_msgs, sawyer_motion_msgs"
 fi
 if docker ps --filter ancestor=ghcr.io/rethoughtrobotics/sawyer-zenoh:latest --format "{{.ID}}" 2>/dev/null | grep -q .; then
     echo "  Bridge: running"
